@@ -28,12 +28,29 @@
     h1 {
       font-family: Arial, sans-serif;
       font-size: 3rem;
-      color: #4169e1;
+      color: red; /* Default text color */
       animation: move 2s infinite;
+      cursor: pointer; /* Change cursor on hover */
     }
   </style>
 </head>
 <body>
-  <h1>Rafal Web Works by Shahbaz</h1>
+  <h1 onclick="changeColor()">Rafal Web Works by Shahbaz</h1>
+
+  <script>
+    function changeColor() {
+      const h1Element = document.querySelector('h1');
+      h1Element.style.color = getRandomColor(); // Change text color to a random color
+    }
+
+    function getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+  </script>
 </body>
 </html>
