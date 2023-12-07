@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Rafal Web Works</title>
+  <title>Rafal Web Works by Shahbaz</title>
   <style>
     /* Basic styling */
     body {
@@ -17,14 +17,14 @@
       background-size: cover;
       background-position: center;
     }
-    
+
     /* Animation */
     @keyframes move {
       0% { transform: translateY(0); }
       50% { transform: translateY(-20px); }
       100% { transform: translateY(0); }
     }
-    
+
     h1 {
       font-family: Arial, sans-serif;
       font-size: 3rem;
@@ -32,10 +32,23 @@
       animation: move 2s infinite;
       cursor: pointer; /* Change cursor on hover */
     }
+
+    img.logo {
+      position: absolute;
+      width: 100px; /* Adjust the size of the logo */
+      animation: spin 2s linear infinite; /* Add rotation animation */
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
-  <h1 onclick="changeColor()">Rafal Web Works</h1>
+  <h1 onclick="changeColor()">Rafal Web Works by Shahbaz</h1>
+
+  <img class="logo" src="https://clipartmag.com/images/falcon-logo-clipart-10.png" alt="Falcon Logo"> <!-- Replace with falcon logo URL -->
 
   <script>
     function changeColor() {
