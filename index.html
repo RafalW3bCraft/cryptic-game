@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Rafal Web Works by Shahbaz</title>
+  <title>Rafal Web Works</title>
   <style>
     /* Basic styling */
     body {
@@ -36,12 +36,13 @@
     img.logo {
       position: absolute;
       width: 100px; /* Adjust the size of the logo */
-      animation: spin 2s linear infinite; /* Add rotation animation */
+      animation: flyInOut 5s infinite alternate; /* Fly in and out animation */
     }
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    @keyframes flyInOut {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-50px); }
+      100% { transform: translateY(0); }
     }
   </style>
 </head>
