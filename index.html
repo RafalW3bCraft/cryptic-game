@@ -1,0 +1,708 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CQ - Timeless</title>
+<style>
+:root{
+  --bg:#040406; --panel:#071018; --neon:#00ff88; --muted:#77a6a0; --glass: rgba(255,255,255,0.03);
+  --accent:#00ffaa; --danger:#ff4d6d; --warning:#ffaa00;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; padding:28px; font-family: ui-monospace, "Roboto Mono", Menlo, Monaco, monospace;
+  background: radial-gradient(ellipse at top left,#001218 0%, #000 60%);
+  color:#cfeee0;
+  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+  overflow-x: hidden;
+}
+.container{
+  max-width:980px; margin:0 auto; border-radius:12px; padding:20px;
+  background: linear-gradient(180deg, rgba(2,6,8,0.45), rgba(1,3,4,0.55));
+  border: 1px solid rgba(0,255,136,0.06);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.02);
+}
+.header{
+  display:flex; gap:14px; align-items:center; margin-bottom:18px;
+}
+.logo{
+  width:86px; height:86px; border-radius:10px; background:linear-gradient(135deg,#00181a,#002b1f);
+  display:flex; align-items:center; justify-content:center; font-weight:900; color:var(--neon);
+  box-shadow:0 6px 24px rgba(0,255,136,0.03), inset 0 -6px 18px rgba(0,0,0,0.5);
+  border:1px solid rgba(0,255,136,0.06); font-size:26px;
+}
+.title{font-size:20px; color:var(--neon); font-weight:800}
+.subtitle{font-size:12px; color:var(--muted); margin-top:2px}
+
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius:8px; padding:14px; margin-bottom:14px; border:1px solid rgba(255,255,255,0.02);
+}
+
+.ascii{
+  font-family: monospace; white-space: pre; color: #9fffd3; font-size:11px; line-height:0.95;
+  background: linear-gradient(180deg, rgba(0,0,0,0.16), rgba(0,0,0,0.06)); padding:12px; border-radius:6px;
+  border:1px solid rgba(0,255,136,0.03); margin-bottom:10px;
+}
+
+.mission{font-style:italic; color:#d3ffe6; margin-bottom:10px}
+.details-grid{
+  display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:12px; margin-bottom:20px;
+}
+
+.stat-card{
+  background: linear-gradient(135deg, rgba(0,255,136,0.02), rgba(0,255,170,0.01));
+  border: 1px solid rgba(0,255,136,0.08);
+  border-radius: 6px; padding: 12px; text-align: center;
+}
+
+.stat-value{
+  font-size: 18px; font-weight: 800; color: var(--neon); margin-bottom: 4px;
+}
+
+.stat-label{
+  font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+.game-area{
+  background: linear-gradient(180deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+  border-radius: 8px; padding: 20px; margin: 20px 0;
+  border: 1px solid rgba(0,255,136,0.1);
+}
+
+.quote-display{
+  font-size: 16px; line-height: 1.6; text-align: center;
+  padding: 20px; margin: 20px 0;
+  background: linear-gradient(135deg, rgba(0,255,136,0.02), rgba(0,255,170,0.01));
+  border-radius: 8px; border: 1px solid rgba(0,255,136,0.08);
+  min-height: 80px; display: flex; align-items: center; justify-content: center;
+}
+
+.encrypted-text{
+  color: var(--danger); font-family: monospace; letter-spacing: 2px;
+}
+
+.decrypted-text{
+  color: var(--neon); animation: glow 2s ease-in-out;
+}
+
+.word-grid{
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 8px; margin: 20px 0;
+}
+
+.word-button{
+  background: linear-gradient(135deg, rgba(0,255,136,0.1), rgba(0,255,170,0.05));
+  border: 1px solid rgba(0,255,136,0.2);
+  border-radius: 6px; padding: 10px; color: var(--neon);
+  cursor: pointer; transition: all 0.3s ease;
+  font-family: inherit; font-size: 12px;
+}
+
+.word-button:hover{
+  background: linear-gradient(135deg, rgba(0,255,136,0.2), rgba(0,255,170,0.1));
+  box-shadow: 0 0 10px rgba(0,255,136,0.3);
+}
+
+.word-button.selected{
+  background: var(--neon); color: #000; font-weight: bold;
+}
+
+.word-button.correct{
+  background: var(--neon); color: #000; animation: pulse 0.5s ease;
+}
+
+.word-button.incorrect{
+  background: var(--danger); color: #fff; animation: shake 0.5s ease;
+}
+
+.control-panel{
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px; margin: 20px 0;
+}
+
+.btn{
+  background: linear-gradient(135deg, rgba(0,255,136,0.1), rgba(0,255,170,0.05));
+  border: 1px solid rgba(0,255,136,0.3);
+  border-radius: 6px; padding: 12px; color: var(--neon);
+  cursor: pointer; transition: all 0.3s ease;
+  font-family: inherit; font-size: 12px; text-transform: uppercase;
+  letter-spacing: 0.5px; font-weight: 600;
+}
+
+.btn:hover{
+  background: linear-gradient(135deg, rgba(0,255,136,0.2), rgba(0,255,170,0.1));
+  box-shadow: 0 0 15px rgba(0,255,136,0.4);
+}
+
+.btn.primary{
+  background: var(--neon); color: #000;
+}
+
+.btn.danger{
+  border-color: var(--danger);
+  background: linear-gradient(135deg, rgba(255,77,109,0.1), rgba(255,77,109,0.05));
+}
+
+.progress-bar{
+  width: 100%; height: 8px; background: rgba(0,0,0,0.3);
+  border-radius: 4px; margin: 10px 0; overflow: hidden;
+}
+
+.progress-fill{
+  height: 100%; background: linear-gradient(90deg, var(--neon), var(--accent));
+  transition: width 0.5s ease; border-radius: 4px;
+}
+
+.terminal{
+  background: rgba(0,0,0,0.4); border-radius: 6px; padding: 12px;
+  font-family: monospace; font-size: 11px; color: var(--neon);
+  max-height: 150px; overflow-y: auto; margin: 10px 0;
+  border: 1px solid rgba(0,255,136,0.1);
+}
+
+.terminal-line{
+  margin: 2px 0; animation: typewriter 0.5s ease;
+}
+
+.hint-panel{
+  background: linear-gradient(135deg, rgba(255,170,0,0.05), rgba(255,170,0,0.02));
+  border: 1px solid rgba(255,170,0,0.2);
+  border-radius: 6px; padding: 12px; margin: 10px 0;
+  color: var(--warning);
+}
+
+.level-indicator{
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 20px; padding: 10px; background: rgba(0,255,136,0.02);
+  border-radius: 6px; border: 1px solid rgba(0,255,136,0.08);
+}
+
+.hidden{display: none;}
+
+@keyframes glow{
+  0%{text-shadow: 0 0 5px var(--neon);}
+  50%{text-shadow: 0 0 20px var(--neon), 0 0 30px var(--neon);}
+  100%{text-shadow: 0 0 5px var(--neon);}
+}
+
+@keyframes pulse{
+  0%{transform: scale(1);}
+  50%{transform: scale(1.05);}
+  100%{transform: scale(1);}
+}
+
+@keyframes shake{
+  0%, 100%{transform: translateX(0);}
+  25%{transform: translateX(-5px);}
+  75%{transform: translateX(5px);}
+}
+
+@keyframes typewriter{
+  from{opacity: 0; transform: translateY(10px);}
+  to{opacity: 1; transform: translateY(0);}
+}
+
+@media (max-width: 768px){
+  body{padding: 16px;}
+  .container{padding: 16px;}
+  .header{flex-direction: column; text-align: center;}
+  .details-grid{grid-template-columns: 1fr;}
+  .control-panel{grid-template-columns: 1fr;}
+  .word-grid{grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));}
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">CQ</div>
+      <div>
+<div class="title">CQ - Timeless</div>
+<div class="subtitle">Neural Pattern Recognition & Cryptographic Analysis • by RafalW3bCraft</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="ascii">
+    ╔═══════════════════════════════════════════════════════════╗
+    ║  ▓▓▓ NEURAL LINK ESTABLISHED ▓▓▓  STATUS: CONNECTED      ║
+    ║  ▓▓▓ QUANTUM DECRYPTION CORE ▓▓▓  READY FOR DEPLOYMENT   ║
+    ╚═══════════════════════════════════════════════════════════╝
+      </div>
+      
+      <div class="mission">
+        MISSION: Decrypt ancient wisdom hidden in quantum-encrypted data streams. 
+        Each level contains a famous quote scrambled by AI defense systems.
+      </div>
+
+      <div class="details-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="level-display">01</div>
+          <div class="stat-label">Current Level</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="score-display">0000</div>
+          <div class="stat-label">Neural Points</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="time-display">00:00</div>
+          <div class="stat-label">Hack Time</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="hints-display">03</div>
+          <div class="stat-label">Quantum Hints</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="game-area">
+      <div class="level-indicator">
+        <span>DECRYPTION PROTOCOL ALPHA</span>
+        <span id="difficulty-level">NOVICE</span>
+      </div>
+
+      <div class="quote-display" id="quote-display">
+        <div class="encrypted-text" id="encrypted-quote">
+          Initializing quantum decryption matrix...
+        </div>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+      </div>
+
+      <div class="word-grid" id="word-grid">
+        <!-- Word buttons will be generated here -->
+      </div>
+
+      <div class="control-panel">
+        <button class="btn primary" id="start-btn">INITIATE HACK</button>
+        <button class="btn" id="hint-btn">QUANTUM HINT</button>
+        <button class="btn" id="solve-btn">AUTO-SOLVE</button>
+        <button class="btn danger" id="reset-btn">NEURAL RESET</button>
+      </div>
+
+      <div class="hint-panel hidden" id="hint-panel">
+        <div id="hint-text">Quantum hint will appear here...</div>
+      </div>
+
+      <div class="terminal" id="terminal">
+<div class="terminal-line">> CQ - Timeless v2.1.0 - Quantum Decryption Interface</div>
+        <div class="terminal-line">> Awaiting neural command input...</div>
+      </div>
+    </div>
+  </div>
+
+<script>
+class CyberQuest {
+  constructor() {
+    this.quotes = [
+      {
+        text: "The only way to do great work is to love what you do.",
+        author: "Steve Jobs",
+        difficulty: 1,
+        hint: "A tech visionary spoke these words about passion and excellence."
+      },
+      {
+        text: "In the middle of difficulty lies opportunity.",
+        author: "Albert Einstein",
+        difficulty: 1,
+        hint: "A famous physicist's wisdom about finding chances in challenges."
+      },
+      {
+        text: "The future belongs to those who believe in the beauty of their dreams.",
+        author: "Eleanor Roosevelt",
+        difficulty: 2,
+        hint: "A former First Lady's thoughts on dreams and the future."
+      },
+      {
+        text: "It is during our darkest moments that we must focus to see the light.",
+        author: "Aristotle",
+        difficulty: 2,
+        hint: "Ancient Greek philosophy about hope in difficult times."
+      },
+      {
+        text: "The way to get started is to quit talking and begin doing.",
+        author: "Walt Disney",
+        difficulty: 2,
+        hint: "The creator of a magical kingdom's advice about taking action."
+      },
+      {
+        text: "Life is what happens to you while you're busy making other plans.",
+        author: "John Lennon",
+        difficulty: 3,
+        hint: "A Beatle's observation about life's unpredictability."
+      },
+      {
+        text: "The greatest glory in living lies not in never falling, but in rising every time we fall.",
+        author: "Nelson Mandela",
+        difficulty: 3,
+        hint: "A freedom fighter's wisdom about resilience and perseverance."
+      },
+      {
+        text: "The only impossible journey is the one you never begin.",
+        author: "Tony Robbins",
+        difficulty: 3,
+        hint: "A motivational speaker's insight about starting your journey."
+      }
+    ];
+    
+    this.currentLevel = 0;
+    this.score = 0;
+    this.hints = 3;
+    this.gameStarted = false;
+    this.startTime = null;
+    this.currentWords = [];
+    this.selectedWords = [];
+    this.isCompleted = false;
+    
+    this.initializeElements();
+    this.bindEvents();
+    this.updateDisplay();
+this.logToTerminal(">> CQ - Timeless initialized. Ready for neural interface.");
+    this.logToTerminal(">> Created by RafalW3bCraft");
+  }
+
+  initializeElements() {
+    this.elements = {
+      levelDisplay: document.getElementById('level-display'),
+      scoreDisplay: document.getElementById('score-display'),
+      timeDisplay: document.getElementById('time-display'),
+      hintsDisplay: document.getElementById('hints-display'),
+      difficultyLevel: document.getElementById('difficulty-level'),
+      quoteDisplay: document.getElementById('quote-display'),
+      encryptedQuote: document.getElementById('encrypted-quote'),
+      progressFill: document.getElementById('progress-fill'),
+      wordGrid: document.getElementById('word-grid'),
+      startBtn: document.getElementById('start-btn'),
+      hintBtn: document.getElementById('hint-btn'),
+      solveBtn: document.getElementById('solve-btn'),
+      resetBtn: document.getElementById('reset-btn'),
+      hintPanel: document.getElementById('hint-panel'),
+      hintText: document.getElementById('hint-text'),
+      terminal: document.getElementById('terminal')
+    };
+  }
+
+  bindEvents() {
+    this.elements.startBtn.addEventListener('click', () => this.startGame());
+    this.elements.hintBtn.addEventListener('click', () => this.showHint());
+    this.elements.solveBtn.addEventListener('click', () => this.autoSolve());
+    this.elements.resetBtn.addEventListener('click', () => this.resetGame());
+  }
+
+  startGame() {
+    if (!this.gameStarted) {
+      this.gameStarted = true;
+      this.startTime = Date.now();
+      this.elements.startBtn.textContent = 'NEXT LEVEL';
+      this.logToTerminal(">> Neural decryption protocol initiated...");
+      this.loadLevel();
+    } else {
+      this.nextLevel();
+    }
+  }
+
+  loadLevel() {
+    if (this.currentLevel >= this.quotes.length) {
+      this.completeGame();
+      return;
+    }
+
+    const quote = this.quotes[this.currentLevel];
+    this.currentWords = quote.text.split(' ');
+    this.selectedWords = [];
+    this.isCompleted = false;
+
+    // Set difficulty display
+    const difficulties = ['NOVICE', 'ADEPT', 'EXPERT'];
+    this.elements.difficultyLevel.textContent = difficulties[quote.difficulty - 1] || 'MASTER';
+
+    // Show encrypted version
+    this.showEncryptedQuote(quote.text);
+    
+    // Generate scrambled word buttons
+    this.generateWordGrid();
+    
+    // Reset progress
+    this.updateProgress(0);
+    
+    this.logToTerminal(`>> Level ${this.currentLevel + 1} loaded. Difficulty: ${quote.difficulty}`);
+    this.logToTerminal(`>> Target: ${quote.text.length} characters, ${this.currentWords.length} words`);
+    
+    this.updateDisplay();
+  }
+
+  showEncryptedQuote(text) {
+    // Create a cyberpunk-style encrypted version
+    const encrypted = text.split('').map(char => {
+      if (char === ' ') return ' ';
+      if (/[a-zA-Z]/.test(char)) {
+        return String.fromCharCode(33 + Math.floor(Math.random() * 94));
+      }
+      return char;
+    }).join('');
+    
+    this.elements.encryptedQuote.textContent = encrypted;
+    this.elements.encryptedQuote.className = 'encrypted-text';
+  }
+
+  generateWordGrid() {
+    // Scramble words
+    const scrambledWords = [...this.currentWords].sort(() => Math.random() - 0.5);
+    
+    this.elements.wordGrid.innerHTML = '';
+    
+    scrambledWords.forEach((word, index) => {
+      const button = document.createElement('button');
+      button.className = 'word-button';
+      button.textContent = word;
+      button.setAttribute('data-word', word);
+      button.addEventListener('click', () => this.selectWord(button, word));
+      this.elements.wordGrid.appendChild(button);
+    });
+  }
+
+  selectWord(button, word) {
+    if (button.classList.contains('correct') || button.classList.contains('incorrect')) {
+      return;
+    }
+
+    const expectedWord = this.currentWords[this.selectedWords.length];
+    
+    if (word === expectedWord) {
+      button.classList.add('correct', 'selected');
+      this.selectedWords.push(word);
+      
+      // Update quote display progressively
+      this.updateQuoteDisplay();
+      
+      // Update progress
+      const progress = (this.selectedWords.length / this.currentWords.length) * 100;
+      this.updateProgress(progress);
+      
+      this.logToTerminal(`>> Word verified: "${word}"`);
+      
+      // Check if level is complete
+      if (this.selectedWords.length === this.currentWords.length) {
+        this.completeLevel();
+      }
+    } else {
+      button.classList.add('incorrect');
+      setTimeout(() => {
+        button.classList.remove('incorrect');
+      }, 500);
+      
+      this.logToTerminal(`>> Access denied: "${word}" - incorrect sequence`);
+    }
+  }
+
+  updateQuoteDisplay() {
+    const quote = this.quotes[this.currentLevel];
+    const partialText = this.selectedWords.join(' ');
+    const remainingWords = this.currentWords.slice(this.selectedWords.length);
+    
+    let displayText = partialText;
+    if (remainingWords.length > 0) {
+      const encryptedRemaining = remainingWords.map(word => 
+        word.split('').map(char => /[a-zA-Z]/.test(char) ? '▓' : char).join('')
+      ).join(' ');
+      displayText += (displayText ? ' ' : '') + encryptedRemaining;
+    }
+    
+    this.elements.encryptedQuote.innerHTML = 
+      `<span class="decrypted-text">${partialText}</span>` +
+      (remainingWords.length > 0 ? ` <span class="encrypted-text">${remainingWords.map(word => '▓'.repeat(word.length)).join(' ')}</span>` : '');
+  }
+
+  nextLevel() {
+    if (this.currentLevel < this.quotes.length - 1) {
+      this.currentLevel++;
+      this.loadLevel();
+    } else {
+      this.completeGame();
+    }
+  }
+
+  completeLevel() {
+    this.isCompleted = true;
+    const quote = this.quotes[this.currentLevel];
+    
+    // Show full decrypted quote
+    this.elements.encryptedQuote.innerHTML = `<span class="decrypted-text">${quote.text}</span>`;
+    this.elements.encryptedQuote.innerHTML += `<br><br><span style="color: var(--muted); font-size: 12px;">— ${quote.author}</span>`;
+    
+    // Calculate score bonus
+    const timeBonus = Math.max(0, 5000 - (Date.now() - this.startTime));
+    const difficultyBonus = quote.difficulty * 1000;
+    const levelScore = 1000 + timeBonus + difficultyBonus;
+    
+    this.score += levelScore;
+    
+    this.logToTerminal(`>> LEVEL COMPLETE! Neural patterns decoded successfully.`);
+    this.logToTerminal(`>> Score bonus: ${levelScore} points`);
+    this.logToTerminal(`>> Quote author: ${quote.author}`);
+    
+    // Disable word buttons
+    document.querySelectorAll('.word-button').forEach(btn => {
+      btn.style.pointerEvents = 'none';
+      btn.style.opacity = '0.6';
+    });
+    
+    this.updateDisplay();
+    
+    // Prepare for next level
+    setTimeout(() => {
+      this.currentLevel++;
+      if (this.currentLevel < this.quotes.length) {
+        this.elements.startBtn.textContent = 'NEXT PROTOCOL';
+        this.elements.startBtn.style.display = 'block';
+      } else {
+        this.completeGame();
+      }
+    }, 2000);
+  }
+
+  completeGame() {
+    this.logToTerminal(`>> ALL PROTOCOLS COMPLETED! Master hacker status achieved.`);
+    this.logToTerminal(`>> Final Score: ${this.score} neural points`);
+    this.logToTerminal(`>> Quantum wisdom database fully decrypted.`);
+    
+    this.elements.quoteDisplay.innerHTML = `
+      <div class="decrypted-text" style="text-align: center;">
+        <h3>🏆 QUANTUM MASTERY ACHIEVED 🏆</h3>
+        <p>All timeless sayings have been successfully decrypted!</p>
+        <p>Final Score: ${this.score.toLocaleString()} Neural Points</p>
+        <p style="color: var(--muted); font-size: 12px;">The wisdom of ages is now yours to command.</p>
+      </div>
+    `;
+    
+    this.elements.startBtn.textContent = 'RESTART MISSION';
+    this.elements.startBtn.onclick = () => location.reload();
+  }
+
+  showHint() {
+    if (this.hints <= 0 || !this.gameStarted || this.isCompleted) {
+      this.logToTerminal(">> No quantum hints available or level not active.");
+      return;
+    }
+
+    this.hints--;
+    const quote = this.quotes[this.currentLevel];
+    
+    this.elements.hintText.textContent = quote.hint;
+    this.elements.hintPanel.classList.remove('hidden');
+    
+    // Also reveal next correct word
+    const nextWordIndex = this.selectedWords.length;
+    if (nextWordIndex < this.currentWords.length) {
+      const nextWord = this.currentWords[nextWordIndex];
+      this.logToTerminal(`>> Quantum hint: Next word is "${nextWord}"`);
+    }
+    
+    setTimeout(() => {
+      this.elements.hintPanel.classList.add('hidden');
+    }, 5000);
+    
+    this.updateDisplay();
+    this.logToTerminal(`>> Quantum hint accessed. ${this.hints} hints remaining.`);
+  }
+
+  autoSolve() {
+    if (!this.gameStarted || this.isCompleted) return;
+    
+    this.logToTerminal(">> Auto-solve protocol engaged. Neural bypass initiated...");
+    
+    // Complete current level automatically
+    this.selectedWords = [...this.currentWords];
+    this.updateQuoteDisplay();
+    this.updateProgress(100);
+    
+    // Mark all correct words
+    document.querySelectorAll('.word-button').forEach(btn => {
+      btn.classList.add('correct');
+    });
+    
+    setTimeout(() => {
+      this.completeLevel();
+    }, 1000);
+  }
+
+  resetGame() {
+    this.currentLevel = 0;
+    this.score = 0;
+    this.hints = 3;
+    this.gameStarted = false;
+    this.startTime = null;
+    this.selectedWords = [];
+    this.isCompleted = false;
+    
+    this.elements.startBtn.textContent = 'INITIATE HACK';
+    this.elements.encryptedQuote.textContent = 'Initializing quantum decryption matrix...';
+    this.elements.encryptedQuote.className = 'encrypted-text';
+    this.elements.wordGrid.innerHTML = '';
+    this.elements.hintPanel.classList.add('hidden');
+    this.updateProgress(0);
+    
+    this.logToTerminal(">> Neural reset complete. All systems reinitialized.");
+    this.updateDisplay();
+  }
+
+  updateProgress(percentage) {
+    this.elements.progressFill.style.width = `${percentage}%`;
+  }
+
+  updateDisplay() {
+    this.elements.levelDisplay.textContent = String(this.currentLevel + 1).padStart(2, '0');
+    this.elements.scoreDisplay.textContent = String(this.score).padStart(4, '0');
+    this.elements.hintsDisplay.textContent = String(this.hints).padStart(2, '0');
+    
+    // Update time display
+    if (this.startTime) {
+      const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+      const minutes = Math.floor(elapsed / 60);
+      const seconds = elapsed % 60;
+      this.elements.timeDisplay.textContent = 
+        `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+    }
+  }
+
+  logToTerminal(message) {
+    const line = document.createElement('div');
+    line.className = 'terminal-line';
+    line.textContent = message;
+    this.elements.terminal.appendChild(line);
+    this.elements.terminal.scrollTop = this.elements.terminal.scrollHeight;
+    
+    // Keep terminal from getting too long
+    const lines = this.elements.terminal.querySelectorAll('.terminal-line');
+    if (lines.length > 10) {
+      lines[0].remove();
+    }
+  }
+}
+
+// Initialize game when page loads
+document.addEventListener('DOMContentLoaded', () => {
+  new CyberQuest();
+  
+  // Update time display every second
+  setInterval(() => {
+    if (window.cyberQuest && window.cyberQuest.gameStarted) {
+      window.cyberQuest.updateDisplay();
+    }
+  }, 1000);
+});
+
+// Store game instance globally for interval access
+let cyberQuest;
+document.addEventListener('DOMContentLoaded', () => {
+  cyberQuest = new CyberQuest();
+  window.cyberQuest = cyberQuest;
+});
+</script>
+</body>
+</html>
