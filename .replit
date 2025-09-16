@@ -1,6 +1,0 @@
-modules = ["web"]
-[agent]
-expertMode = true
-
-[nix]
-channel = "stable-25_05"
