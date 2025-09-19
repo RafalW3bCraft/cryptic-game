@@ -1,0 +1,53 @@
+version: "3.8"
+services:
+
+  juice-shop:
+    image: bkimminich/juice-shop:latest
+    restart: unless-stopped
+    networks:
+      - lab-net
+    ports:
+      - "3000:3000"
+
+  mock-llm:
+    image: python:3.11-slim
+    command: ["bash", "-c", "pip install flask && python /app/mock_llm.py"]
+    volumes:
+      - ./mock_llm:/app
+    networks:
+      - lab-net
+    ports:
+      - "5000:5000"
+
+  elk:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.0
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    networks:
+      - lab-net
+    ports:
+      - "9200:9200"
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.10.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elk:9200
+    networks:
+      - lab-net
+    ports:
+      - "5601:5601"
+
+  suricata:
+    image: jasonish/suricata:latest
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    networks:
+      - lab-net
+    volumes:
+      - ./suricata/log:/var/log/suricata
+
+networks:
+  lab-net:
+    driver: bridge

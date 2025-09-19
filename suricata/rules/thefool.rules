@@ -1,0 +1,10 @@
+# TheFool - Suricata rule stubs (lab use only)
+
+# 1) Detect long POST bodies to mock-llm endpoint (possible large prompt injection attempts)
+alert http any any -> any any (msg:"THEFOOL LLM long prompt POST"; http.method; content:"POST"; http.uri; content:"/v1/generate"; http_client_body; pcre:"/.{800,}/"; sid:1000001; rev:1;)
+
+# 2) Detect repeated quick requests from same source (beacon-like activity)
+alert http any any -> any any (msg:"THEFOOL Beacon pattern - repeated requests"; flow:established,to_server; http.uri; threshold:type both, track by_src, count 10, seconds 30; sid:1000002; rev:1;)
+
+# 3) Detect attempts to probe admin endpoints
+alert http any any -> any any (msg:"THEFOOL Admin endpoint probe"; http.uri; content:"/admin"; nocase; sid:1000003; rev:1;)

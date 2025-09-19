@@ -1,0 +1,32 @@
+---
+- name: Reset TheFool lab (Docker Compose)
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Stop and remove containers
+      ansible.builtin.command:
+        cmd: docker compose down --volumes --remove-orphans
+      ignore_errors: yes
+
+    - name: Prune unused images and volumes (promptless)
+      ansible.builtin.command:
+        cmd: docker system prune -af --volumes
+      ignore_errors: yes
+
+    - name: Recreate lab
+      ansible.builtin.command:
+        cmd: docker compose up -d --build
+      ignore_errors: no
+
+    - name: Wait for services
+      ansible.builtin.pause:
+        seconds: 8
+
+    - name: Show docker ps
+      ansible.builtin.command:
+        cmd: docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+      register: psout
+
+    - name: Print status
+      ansible.builtin.debug:
+        var: psout.stdout_lines
