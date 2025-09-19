@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# tools/scorer/score.py
 import glob, re, json, os, datetime
 
 RUBRIC = {

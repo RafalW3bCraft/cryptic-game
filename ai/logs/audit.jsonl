@@ -1,0 +1,2 @@
+{"event": "generate.request", "prompt_snippet": "How to write a high-quality vulnerability report for a stored XSS found in a lab app?", "meta": {"prompt_len": 85, "timestamp": 1758313489}}
+{"event": "generate.response", "mode": "mock", "text_snippet": "[MOCK-ANSWER 63541921] This is a safe mock response from TheFool AI engine."}

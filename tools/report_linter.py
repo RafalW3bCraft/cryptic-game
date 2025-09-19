@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# scripts/preflight.sh
 # Run as root (sudo). Blocks outbound access from docker lab bridge network.
 set -euo pipefail
 

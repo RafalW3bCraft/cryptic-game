@@ -1,0 +1,20 @@
+{
+  "generated_at": "2025-09-19T20:13:34.359858Z",
+  "dataset": {
+    "path": "unsupervised/curated.jsonl",
+    "sha256": "882b3439d59a20c50a45e899af364ac95425de0580e213cb9bb56c7ad9484396"
+  },
+  "models": [
+    {
+      "path": "models/iteration_001"
+    },
+    {
+      "path": "models/iteration_002",
+      "iteration": 2,
+      "outdir": "models/iteration_002",
+      "dataset": "unsupervised/curated.jsonl",
+      "dataset_sha256": "882b3439d59a20c50a45e899af364ac95425de0580e213cb9bb56c7ad9484396",
+      "dir_hash": "b7713a6b4e83da4e5372f1276fca9178f0ecef26b53a2d04453ad5d7fa7bd013"
+    }
+  ]
+}

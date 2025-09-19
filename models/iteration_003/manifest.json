@@ -1,0 +1,6 @@
+{
+  "iteration": 3,
+  "outdir": "models/iteration_003",
+  "dataset": "unsupervised/curated.jsonl",
+  "dataset_sha256": "882b3439d59a20c50a45e899af364ac95425de0580e213cb9bb56c7ad9484396"
+}

@@ -1,4 +1,3 @@
-# mock_llm.py
 # TheFool - Mock LLM service (deterministic & safe)
 # Author: RafalW3bCraft
 

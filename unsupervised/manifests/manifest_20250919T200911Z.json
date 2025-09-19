@@ -1,0 +1,12 @@
+{
+  "generated_at": "2025-09-19T20:09:11.078141Z",
+  "dataset": {
+    "path": "unsupervised/curated.jsonl",
+    "sha256": "882b3439d59a20c50a45e899af364ac95425de0580e213cb9bb56c7ad9484396"
+  },
+  "models": [
+    {
+      "path": "models/iteration_001"
+    }
+  ]
+}

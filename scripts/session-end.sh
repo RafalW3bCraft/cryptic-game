@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# scripts/session-end.sh
 # Usage: sudo ./scripts/session-end.sh <operator_handle> "optional note"
 set -euo pipefail
 

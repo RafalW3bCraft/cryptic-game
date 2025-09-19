@@ -1,0 +1,44 @@
+{
+  "generated_at": "2025-09-19T20:20:33.806872Z",
+  "dataset": {
+    "path": "unsupervised/curated.jsonl",
+    "sha256": "c1aa938da58d8dd6c11b42ed695be43bc4ddaba8930d94ad25d954a7f4a07bef"
+  },
+  "models": [
+    {
+      "path": "models/iteration_001"
+    },
+    {
+      "path": "models/iteration_002",
+      "iteration": 2,
+      "outdir": "models/iteration_002",
+      "dataset": "unsupervised/curated.jsonl",
+      "dataset_sha256": "882b3439d59a20c50a45e899af364ac95425de0580e213cb9bb56c7ad9484396",
+      "dir_hash": "b7713a6b4e83da4e5372f1276fca9178f0ecef26b53a2d04453ad5d7fa7bd013"
+    },
+    {
+      "path": "models/iteration_003",
+      "iteration": 3,
+      "outdir": "models/iteration_003",
+      "dataset": "unsupervised/curated.jsonl",
+      "dataset_sha256": "882b3439d59a20c50a45e899af364ac95425de0580e213cb9bb56c7ad9484396",
+      "dir_hash": "0343badfb7079daffef0dc0faa24c580f6a47f0581ddbf71ccbecc947504df23"
+    },
+    {
+      "path": "models/iteration_004",
+      "iteration": 4,
+      "outdir": "models/iteration_004",
+      "dataset": "unsupervised/curated.jsonl",
+      "dataset_sha256": "882b3439d59a20c50a45e899af364ac95425de0580e213cb9bb56c7ad9484396",
+      "dir_hash": "5144fd130dde6ab68d4cedcacb431db017794e87b327cc738a3631fed0738e2f"
+    },
+    {
+      "path": "models/iteration_005",
+      "iteration": 5,
+      "outdir": "models/iteration_005",
+      "dataset": "unsupervised/curated.jsonl",
+      "dataset_sha256": "c1aa938da58d8dd6c11b42ed695be43bc4ddaba8930d94ad25d954a7f4a07bef",
+      "dir_hash": "7a06e1feb79f21d30d437c474dd5d38f988f12f24f84f013e3058ea2e81696b0"
+    }
+  ]
+}

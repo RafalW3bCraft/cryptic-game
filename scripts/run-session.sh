@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# scripts/run-session.sh
 # Usage: sudo ./scripts/run-session.sh <operator_handle> "short goal"
 set -euo pipefail
 if [ "$EUID" -ne 0 ]; then

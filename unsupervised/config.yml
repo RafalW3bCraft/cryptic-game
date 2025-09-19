@@ -1,0 +1,6 @@
+dataset: "unsupervised/dataset.jsonl"
+model_base: "mistralai/Mistral-7B-v0.1"
+output_dir: "models/"
+train:
+  epochs: 1
+  batch_size: 1

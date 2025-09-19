@@ -1,0 +1,25 @@
+stages:
+  collect:
+    cmd: python unsupervised/collector.py
+    deps:
+      - zeek/logs
+      - suricata/log
+      - lab/reports
+      - ai/history
+    outs:
+      - unsupervised/dataset_raw.jsonl
+
+  curate:
+    cmd: python unsupervised/curator.py --raw unsupervised/dataset_raw.jsonl --curated unsupervised/curated.jsonl --review unsupervised/human_review.jsonl
+    deps:
+      - unsupervised/dataset_raw.jsonl
+    outs:
+      - unsupervised/curated.jsonl
+      - unsupervised/human_review.jsonl
+
+  train:
+    cmd: python unsupervised/train_lora_trainer.py --curated unsupervised/curated.jsonl --fp16
+    deps:
+      - unsupervised/curated.jsonl
+    outs:
+      - models

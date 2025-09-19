@@ -1,0 +1,8 @@
+# ignore runtime artifacts and heavy model caches from git
+*.pt
+*.bin
+__pycache__/
+ai/.cache/
+models/
+ai/logs/
+unsupervised/storage/

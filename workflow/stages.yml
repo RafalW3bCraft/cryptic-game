@@ -1,0 +1,70 @@
+# TheFool canonical workflow (lab-only). Each stage includes a short checklist and allowed tools.
+stages:
+  - id: recon
+    name: Reconnaissance
+    description: >
+      Discover in-scope assets and services. Use non-destructive enumeration and passive observation.
+    allowed_actions:
+      - "open-browser"
+      - "http_probe"
+      - "manual_inspect"
+      - "ai_assist"
+    example_tools:
+      - "browser devtools"
+      - "curl"
+      - "nikto (lab-configured)"
+      - "burp-proxy (lab-only)"
+    checklist:
+      - "Confirm target is in-scope per ROE"
+      - "Map endpoints and authentication flows"
+      - "Collect and save screenshots/requests"
+  - id: vuln_discovery
+    name: Vulnerability Discovery
+    description: >
+      Identify input validation and logic issues using safe, non-destructive tests. Record proof-of-concept requests.
+    allowed_actions:
+      - "fuzz_input"
+      - "review_source"
+      - "ai_assist"
+    example_tools:
+      - "burp intruder (lab-only)"
+      - "manual testing with crafted inputs"
+    checklist:
+      - "Reproduce issue deterministically"
+      - "Capture exact request/response"
+      - "Do not attempt persistence or destructive payloads on any real asset"
+  - id: exploitation
+    name: Exploitation (simulated)
+    description: >
+      Execute safe, **simulated** exploit scenarios only against authorized lab targets or simulator. Do not run real-world exploits.
+    allowed_actions:
+      - "exploit_simulator"
+      - "proof_of_concept (lab-only)"
+    example_tools:
+      - "TheFool exploit simulator (lab-only)"
+      - "Juice Shop test payloads (non-destructive)"
+    checklist:
+      - "Use simulator or mock endpoints only"
+      - "Record exactly what you ran, with timestamps"
+      - "Stop if any real-world effect observed"
+  - id: reporting
+    name: Reporting & Remediation
+    description: >
+      Produce a concise reproducible report (see lab/reports/TEMPLATE.md) with remediation suggestions.
+    allowed_actions:
+      - "report_write"
+      - "ai_assist"
+    checklist:
+      - "Include minimal steps to reproduce"
+      - "Attach sanitized request/response and logs"
+      - "Suggest short-term and long-term remediation"
+  - id: scoring
+    name: Scoring & Mentorship
+    description: >
+      Score the finding using the rubric and request mentor review for high-impact issues.
+    allowed_actions:
+      - "score"
+      - "mentor_review"
+    checklist:
+      - "Assign severity and explanation"
+      - "Add reproducibility notes and suggested tests"

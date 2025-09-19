@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# tools/zeek_to_json.py
 # Tail a Zeek http.log (tab-separated) and write JSON lines for HTTP requests with body_len > threshold.
 # Usage:
 #   python3 tools/zeek_to_json.py --zeek-log ./zeek/logs/current/http.log --out ./zeek/logs/long_requests.jsonl --threshold 1024

@@ -1,0 +1,12 @@
+fastapi
+uvicorn[standard]
+transformers
+accelerate
+peft
+sentence-transformers
+faiss-cpu
+datasets
+torch
+bitsandbytes
+pydantic
+flask
