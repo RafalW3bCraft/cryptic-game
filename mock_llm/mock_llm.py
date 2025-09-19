@@ -5,6 +5,12 @@
 from flask import Flask, request, jsonify
 import hashlib
 import time
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--mode", choices=("safe","vuln","noisy"), default="safe")
+args = parser.parse_args()
+MODE = args.mode
 
 app = Flask(__name__)
 

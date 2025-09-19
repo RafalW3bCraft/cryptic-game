@@ -1,0 +1,11 @@
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - /usr/share/filebeat/logs/*.jsonl
+  json.keys_under_root: true
+  json.add_error_key: true
+output.elasticsearch:
+  hosts: ["elk:9200"]
+setup.kibana:
+  host: "kibana:5601"
